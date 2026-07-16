@@ -1,0 +1,119 @@
+# 服务器配置
+server:
+  port: 8889
+  servlet:
+    context-path: /
+spring:
+  # 应用配置
+  application:
+    name: petBack
+  # 数据库配置
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/petManager?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false&serverTimezone=GMT%2b8&allowPublicKeyRetrieval=true
+    username: root
+    password: 123456
+  # 安全配置
+  security:
+    user:
+      name: admin
+      password: admin
+  # 文件上传配置
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 20MB
+  # 静态资源配置
+  mvc:
+    static-path-pattern: /**
+  web:
+    resources:
+      static-locations: classpath:/static/
+  # 邮件配置
+  mail:
+    host: smtp.qq.com
+    username: 2922367884@qq.com
+    password: hvzkczdyzadxdcjd
+    default-encoding: utf-8
+    port: 587
+    properties:
+      mail:
+        debug: true
+        smtp:
+          auth: true
+          ssl:
+            enable: true
+            protocols: TLSv1.2
+          socketFactory:
+            class: javax.net.ssl.SSLSocketFactory
+            port: 465
+
+# MyBatis 配置
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+    use-built-in-alias-types: true
+
+# MyBatis-Plus 配置
+mybatis-plus:
+  mapper-locations: classpath:/mapper/*.xml
+  global-config:
+    db-config:
+      id-type: auto
+      use-id-generator: false
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+# SpringDoc (Swagger) 配置
+springdoc:
+  enable-spring-security: false
+  api-docs:
+    path: /v3/api-docs
+    enabled: true
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
+    tags-sorter: alpha
+    operations-sorter: alpha
+  paths-to-match: /**
+  packages-to-scan: com.example.petback.controller
+
+# Knife4j 配置
+knife4j:
+  enable: true
+  setting:
+    language: zh_cn
+
+# 自定义配置
+baseUrl: http://localhost:8889
+user:
+  defaultPassword: 123456
+  fromEmail: 2922367884@qq.com
+
+# 支付宝配置
+alipay:
+  app-id: 9021000140623471
+  app-private-key: MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCQpuLhEYrpuaAKHF5D4EZ2ObgVqy5PFaBCsH8Y8ep5JF2MDHn/rRG6YXaw23WncnUn/6yFlwdpwRAHojWUlK33XxLEFR9V4q5QfDh2URPp6JQEp8fuWroncUziHnPpV/heFN02NWcwr1j729NghwOuYeJAWg4WxJH5521WRyBPEPN/WErthFFUojLH3mkaJ19n7bR4ARnNLQ0AP7cYfh0x6apNwzPGj7GbVgaxW0mQMXl6PrvZ4twoBhZwaUQFAfhWqQtWV1VwLt+Of0n7SbuKj6ohLb8O50VBlYf+nTC2aSBtv3G1atigGUciAqiU19yH6VGrKJJ7zzDCmSwPxJYxAgMBAAECggEAPJSYGjiVm/Mw0ms1E2o/OE5OCU0q1NYyyxtN722JjHitcPTctzaNYShmZAVVTe6CoGDUqRIqeaDwjLHjjLmD7kD0BAjwmbCY3n5Xyz2DgIf2TcjS08FNiy1JTL4CP2ynSQel6YkOEXauZrSW3ytMYGEAN4E/u0tR83537RVWs6W5p7BU8Fsl+p7zVdEClfahgLjjidVVApVi5u/YXydHVyTDfQpc9XqA4oQt2hhC3uLwiFnbOZRp2spDrtcTvC5A4/kXdc1YJ7Rxpi7Swxwyt1S5UWOQcDQHyfVE5XeVn9Il6ucv7syQuYe4aqrlYO6OVW3w0j77bhvZxJpMoM+zvQKBgQDv3URjw/bxVoVlHZ/58VUyv8R0OgQ0ZLcShktoJHEMe7ggD9gfit3LkoNrY7eH4LLyZNS7C5GKJ/pqtSeRnovqKQeSSft+OxCzIyXsIzJCz53yteghcdt4e0hjd3tcH8AiKwqLB3Wjv2CdUuwLd4djqlWcmBdMdvoH/ALgxwxFpwKBgQCaYfRMCZZrSjQQxB+O0NY1bivN24q5lxxz5KPBycZS/saZaziiM7KCwcmCY1yB59mjzu0BeTFhYOy6gSt+O0blpmg4IgSdRG1k8eDXvXtgHHbC0zH5d/UR5cn6PcxbOI+86ieNCYa9wGrlDQRjYa6urs76fn03+xVP3t1kZDjwZwKBgGiRww3nUdHW0WLKroKNdoIgXin5XPnmanV1/IvTT0GM8jFwFt1xcc4c+pQnrcxb5keMM72zhmh/k0lP3oc6Ym7cIkPhYvWeFGK0UQUINxIvZwF30lI6S97TiDRs02fPI7kBoKAJyXxwo1MS4nsBShHmIVqaZ5XbTJeMg0ixHiWDAoGAJAXPNx7VlltOIstggbaBBR6b4gDkMcHsxa4H9+PY/uyr8ohuQorFkHUfS+lbYIR06CAUdU+OEibHlg0l1OKH/HYDw3VMllWtIOy/hheUfiymGXemJYu0B2US5+0bjf14rKAGcoZShlwrlR6gc4ALfn8TlKeHGFTh+C0Mg6xPDOkCgYEA6zuA5tCxp+/4vH6XZ+HX1FVCQClZqJo4Xd4NXrHaLPSc2D7x5vV31BqTRXDyhugzVLJs6lBsR+n42HCZCKcIKebNSmpAktgA4P0b8pk8YAqU9abv2PMdDwe//jV7aXI1m1pFnkMOV5qoB27bgdq1tQRd1INg8EnVfEU6taE0Xj8=
+  alipay-public-key: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAiMD4FvmHpaJFAYYb83fUY0kIZSWqARP9rKIYgkbQ7PYF5VsrmTwd8TftQxOVrz+YjR+md7neDmPCDsMNXVGQLXd5mUqVF5UC6+jVuNI3f8abJfG3FZd8BteKdOnCLoZj+D7ZZv6DFFNKAvCeXbXqhCuKpXA/+FdndLEGqcGWST/+dJJ8UxVACK3LOz6/HAIncMv1uoU7fpgqOpzMnVkAB9VGJqaTvG4QK6jy453/j0Z05HpR9MJGx2cfcLNmX5mQHEngmbPxk4ny51RthMkodAoFIKhfQFkZvNx9IJvsy8UveNT58wrNBv3fxsAXgiakNEYH//QtLRf6+D+hwFMI5QIDAQAB
+
+# 百度文心一言配置
+baidu:
+  wenxin:
+    api-key: jcw0bcntrrewf8oYt7fzM1EA
+    secret-key: DG8J0LED1M2c2zsDQVljtEAitzMg2zRz
+
+# 日志配置
+logging:
+  level:
+    com.baomidou.mybatisplus.core.MybatisConfiguration: OFF
+
+# Jackson 配置
+spring.jackson:
+  default-property-inclusion: non_empty
+
+
+# DeepSeek API 配置
+deepseek:
+  api-url: https://api.deepseek.com/chat/completions
+  api-key:
+  model: deepseek-v4-pro

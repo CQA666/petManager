@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pet.petmanager.dao.HealthRecordDao">
+
+
+    <!-- 定义一个名为healthRecordResultMap的结果映射，映射到类型为com.qf.vo.HealthRecordVO的对象 -->
+    <resultMap id="healthRecordResultMap" type="com.pet.petmanager.VO.HealthRecordVO">
+        <!-- 映射主键id到HealthRecordVO的id属性 -->
+        <id property="id" column="id"/>
+        <!-- 映射pet_id列的值到HealthRecordVO的petId属性 -->
+        <result property="petId" column="pet_id"/>
+        <!-- 映射record_date列的值到HealthRecordVO的recordDate属性 -->
+        <result property="recordDate" column="record_date"/>
+        <!-- 映射temperature列的值到HealthRecordVO的temperature属性 -->
+        <result property="temperature" column="temperature"/>
+        <!-- 映射weight列的值到HealthRecordVO的weight属性 -->
+        <result property="weight" column="weight"/>
+        <!-- 映射height列的值到HealthRecordVO的height属性 -->
+        <result property="height" column="height"/>
+        <!-- 映射vaccination_date列的值到HealthRecordVO的vaccinationDate属性 -->
+        <result property="vaccinationDate" column="vaccination_date"/>
+        <!-- 映射health_status列的值到HealthRecordVO的healthStatus属性 -->
+        <result property="healthStatus" column="health_status"/>
+        <!-- 映射petName列的值到HealthRecordVO的petName属性 -->
+        <result property="petName" column="petName"/>
+    </resultMap>
+
+
+    <!-- 定义一个名为selectByPage的查询语句，使用healthRecordResultMap作为结果映射 -->
+    <select id="selectByPage" resultMap="healthRecordResultMap">
+        <!-- 选择健康记录表hr的所有字段以及动物表a中的name字段，并将其重命名为petName -->
+        SELECT
+        <!-- 选择健康记录表hr的所有字段 -->
+        hr.*,
+        <!-- 选择动物表a中的name字段，并将其重命名为petName -->
+        a.name AS petName
+        <!-- 指定从动物表a和健康记录表hr中查询数据，通过pet_id和id字段进行左连接 -->
+        FROM
+        <!-- 健康记录表 -->
+        health_record hr
+        <!-- 左连接动物表 -->
+        LEFT JOIN
+        <!-- 动物表 -->
+        animal a ON hr.pet_id = a.id
+        <!-- 设置查询条件，1=1是一个常用的SQL技巧，便于动态添加条件 -->
+        WHERE
+        <!-- 查询条件开始 -->
+        1 = 1
+        <!-- 如果传入的petName不为空且不为空字符串，则添加对动物表a中name字段的模糊查询条件 -->
+        <if test="petName!= null and petName!= ''">
+            <!-- 动物名称模糊匹配 -->
+            AND a.name LIKE CONCAT('%', #{petName}, '%')
+        </if>
+
+        <!-- 如果传入的recordDate不为空且不为空字符串，则添加对健康记录表hr中record_date字段的精确查询条件 -->
+        <if test="recordDate!= null and recordDate!= ''">
+            <!-- 记录日期精确匹配 -->
+            AND hr.record_date = #{recordDate}
+        </if>
+    </select>
+
+</mapper>

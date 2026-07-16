@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pet.petmanager.dao.OrdersDao">
+
+    <resultMap id="OrdersResultMapper" type="com.pet.petmanager.VO.OrdersVO">
+        <result property="id" column="id"/>
+        <result property="orderNo" column="order_no"/>
+        <result property="userId" column="user_id"/>
+        <result property="goodsId" column="goods_id"/>
+        <result property="num" column="num"/>
+        <result property="totalAmount" column="totalAmount"/>
+        <result property="username" column="userName"/>
+        <result property="goodsName" column="goodsName"/>
+    </resultMap>
+
+    <select id="selectOrdersByPage" resultMap="OrdersResultMapper">
+        SELECT o.*, u.username AS userName, g.name AS goodsName, o.num * g.price AS totalAmount
+        FROM orders o
+        LEFT JOIN user u ON o.user_id = u.id
+            AND u.username LIKE CONCAT('%', IFNULL(#{userName}, ''), '%')
+        LEFT JOIN goods g ON o.goods_id = g.id
+            AND g.name LIKE CONCAT('%', IFNULL(#{goodsName}, ''), '%')
+        WHERE o.order_no LIKE CONCAT('%', IFNULL(#{orderNo}, ''), '%')
+            AND (o.user_id = #{userId} OR #{userId} IS NULL)
+    </select>
+</mapper>

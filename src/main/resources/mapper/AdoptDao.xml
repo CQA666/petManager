@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pet.petmanager.dao.AdoptDao">
+
+    <!-- 定义名为AdoptResultMap的结果映射，映射到com.qf.vo.AdoptVO类型 -->
+    <resultMap id="AdoptResultMap" type="com.pet.petmanager.VO.AdoptVO">
+        <!-- 映射id字段，对应数据库中的id列 -->
+        <id property="id" column="id"/>
+        <!-- 映射userName字段，对应数据库中的userName列 -->
+        <result property="userName" column="userName"/>
+        <!-- 映射animalImg字段，对应数据库中的animalImg列 -->
+        <result property="animalImg" column="animalImg"/>
+        <!-- 映射animalName字段，对应数据库中的animalName列 -->
+        <result property="animalName" column="animalName"/>
+    </resultMap>
+
+
+    <!-- 定义名为selectByPage的查询语句，使用AdoptResultMap作为结果映射 -->
+    <select id="selectByPage" resultMap="AdoptResultMap">
+        <!-- 选择所有列，并从user表中选择name列作为userName，从animal表中选择img列作为animalImg，从animal表中选择name列作为animalName -->
+        SELECT a.*, u.name AS userName, an.img AS animalImg, an.name AS animalName
+        <!-- 从adopt表中选择数据 -->
+        FROM adopt a
+        <!-- 左连接user表，条件是adopt表的user_id等于user表的id -->
+        LEFT JOIN user u ON a.user_id = u.id
+        <!-- 左连接animal表，条件是adopt表的animal_id等于animal表的id -->
+        LEFT JOIN animal an ON a.animal_id = an.id
+        <!-- 动态条件过滤 -->
+        <where>
+            <!-- 如果name不为空且不为空字符串，则添加模糊查询条件 -->
+            <!-- CONCAT函数用于拼接字符串 -->
+            <if test="name != null and name != ''">
+                AND an.name LIKE CONCAT('%', #{name}, '%')
+            </if>
+
+        </where>
+
+    </select>
+
+    <select id="selectByAnimalId" resultType="com.pet.petmanager.entity.Adopt">
+        SELECT * FROM adopt WHERE animal_id = #{animal_id}
+    </select>
+    <select id="selectAdoptTrend" resultType="java.util.Map">
+        SELECT
+            DATE(time) AS date,
+            COUNT(*) AS count
+        FROM adopt
+        WHERE time BETWEEN #{startDate} AND #{endDate}
+        GROUP BY DATE(time)
+        ORDER BY date
+    </select>
+
+
+</mapper>
