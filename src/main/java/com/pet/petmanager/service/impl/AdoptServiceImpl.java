@@ -50,7 +50,7 @@ public class AdoptServiceImpl extends ServiceImpl<AdoptDao, Adopt> implements Ad
             return Result.error("-1", "参数不能为空");
         }
         //判断是否更改为待领养
-        if (AnimalEnum.NO_ADOPT.getInfo().equals(adoptVO.getStatus())){
+        if (AnimalEnum.ADOPT_CANCEL.getInfo().equals(adoptVO.getStatus())){
             //更改animal表中的status为待领养
             Animal animal = animalService.getById(adoptVO.getAnimalId());
             //判断宠物是否存在
