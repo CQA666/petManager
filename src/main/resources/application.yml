@@ -115,5 +115,13 @@ spring.jackson:
 # DeepSeek API 配置
 deepseek:
   api-url: https://api.deepseek.com/chat/completions
-  api-key:
+  api-key: sk-234077181840499aaf480569dc90b2c4
   model: deepseek-v4-pro
+# Spark API Configuration
+spark:
+  app-id: 29b2d545
+  api-key: 1adc0cf4a649e80a618a61242093a1c3
+  api-secret: MGM0ZThmYTZiNGY3YjlkZWQxZmFjNWJl
+  api-url: https://spark-api-open.xf-yun.com/v1/chat/completions  # 修改为v1端点
+  model: lite  # 根据v1端点选择合适的模型
+  api-password: XSrAcYcUqAMKkWlRnTHk:KxWYFDwzzcnzbiwhUrFe

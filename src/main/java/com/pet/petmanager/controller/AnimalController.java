@@ -54,4 +54,5 @@ public class AnimalController {
     public Result selectAll() {
         return animalService.selectAll();
     }
+
 }
